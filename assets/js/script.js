@@ -30,10 +30,11 @@ $(document).ready(function () {
             const wind = response.wind.speed;
             const humidity = response.main.humidity;
             const temperature = response.main.temp;
-            const latitude = response.coord.lat;
-            const longitude = response.coord.lon;
+            const img = `https://openweathermap.org/img/w/${response.weather[0].icon}.png`;
+            // const latitude = response.coord.lat;
+            // const longitude = response.coord.lon;
 
-            console.log(name, wind, humidity, temperature);
+            // console.log(name, wind, humidity, temperature, img);
             // card title
             const titleEl = $("<h3>").addClass("card-title").text(`${name} (${new Date().toLocaleDateString()})`);
 
@@ -47,9 +48,10 @@ $(document).ready(function () {
             const windEl = $("<p>").addClass("card-text").text(`Wind Speed: ${wind} MPH`);
             const humidEl = $("<p>").addClass("card-text").text(`Humidity: ${humidity}`);
             const tempEl = $("<p>").addClass("card-text").text(`Temerature: ${temperature}`);
-
+            const imgEl = $("<img>").attr("src", img);
 
             // add all data into card
+            titleEl.append(imgEl);
 
             // append data into body section
             cardBodyEl.append(titleEl, tempEl, humidEl, windEl);
@@ -60,17 +62,38 @@ $(document).ready(function () {
             // append onto html page
             $("#today").append(cardEl);
 
-            getForecast(latitude, longitude);
+            getForecast(name);
 
         })
     }
 
-    function getForecast(latitude, longitude) {
+    function getForecast(cityName) {
         $.ajax({
             type: "Get",
-            url: `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=688988e3b9c619e778927f53f7761d5d`
+            url: `http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=688988e3b9c619e778927f53f7761d5d`
         }).then(function (response) {
-            console.log(response);
+
+            $("#forecast").html("<h4 class=\"mt-3\">5-Day Forecast: </h4>").append("<div class=\"row\">");
+
+            // looping over forecasts
+            for (var i = 0; i < response.list.length; i++) {
+
+                // creating column
+                const colEl = $("<div>").addClass("col-md-2");
+
+                // creating card
+                const cardEl = $("<card>").addClass("card bg-primary text-white");
+
+                // card body
+                const cardBodyEl = $("<div>").addClass("card-body p-2");
+
+                // extrct data from current element
+                const titleEl = $("<h5>").addClass("card-title").text(new Date(response.list[i].dt_txt).toLocaleDateString());
+
+
+
+
+            }
         })
     }
 
