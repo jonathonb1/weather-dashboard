@@ -76,7 +76,7 @@ $(document).ready(function () {
             $("#forecast").html("<h4 class=\"mt-3\">5-Day Forecast: </h4>").append("<div class=\"row\">");
 
             // looping over forecasts
-            for (var i = 0; i < response.list.length; i++) {
+            for (var i = 0; i < response.list.length; i += 8) {
 
                 // creating column
                 const colEl = $("<div>").addClass("col-md-2");
@@ -89,10 +89,19 @@ $(document).ready(function () {
 
                 // extrct data from current element
                 const titleEl = $("<h5>").addClass("card-title").text(new Date(response.list[i].dt_txt).toLocaleDateString());
+                const imgEl = $("<img>").attr("src", `https://openweathermap.org/img/w/${response.list[i].weather[0].icon}.png`)
+                const tempEl = $("<p>").addClass("card-text").text(`Temp: ${response.list[i].main.temp_max}`);
+                const humidityEl = $("<p>").addClass("card-text").text(`Humidity: ${response.list[i].main.humidity}`);
 
+                // append all data to card
+                cardBodyEl.append(titleEl, imgEl, tempEl, humidityEl);
+                cardEl.append(cardBodyEl);
 
+                // append finished card to column
+                colEl.append(cardEl);
 
-
+                // append column onto row
+                $("#forecast .row").append(colEl);
             }
         })
     }
