@@ -30,7 +30,7 @@ $(document).ready(function () {
         // query api
         $.ajax({
             type: "GET",
-            url: `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=688988e3b9c619e778927f53f7761d5d`
+            url: `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=688988e3b9c619e778927f53f7761d5d`
         }).then(function (response) {
             console.log(response);
 
@@ -79,7 +79,7 @@ $(document).ready(function () {
     function getForecast(cityName) {
         $.ajax({
             type: "Get",
-            url: `http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=688988e3b9c619e778927f53f7761d5d`
+            url: `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=688988e3b9c619e778927f53f7761d5d`
         }).then(function (response) {
 
             $("#forecast").html("<h4 class=\"mt-3\">5-Day Forecast: </h4>").append("<div class=\"row\">");
