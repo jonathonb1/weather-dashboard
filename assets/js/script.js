@@ -1,14 +1,23 @@
 // js will only run on page load
 $(document).ready(function () {
 
+    // create an array of cities
+    const cities = ["Sacramento", "San Jose"];
+
     // listen for button click within city search
     $("#search-btn").on("click", function () {
 
         // get search-value
         const searchValue = $("#search-value").val().trim();
 
+        // add new button to array
+        cities.push(searchValue);
+
         // call search weather function
         searchWeather(searchValue);
+
+        // render new button
+        renderButtons();
     })
 
     // fucnction for todays weather
@@ -106,6 +115,25 @@ $(document).ready(function () {
         })
     }
 
+    function renderButtons() {
+
+        $(".cities").empty();
+        for (let i = 0; i < cities.length; i++) {
+            // create list item
+            const listItem = $("<li>").addClass("current-city list-group-item list-group-item-action").attr("data-city", cities[i]).text(cities[i]);
+            $(".cities").append(listItem);
+        }
+    }
+
+    $(document).on("click", ".current-city", function () {
+
+        // get city name from selection
+        const cityName = $(this).attr("data-city");
+        searchWeather(cityName);
+    })
+
+    //  on page load
+    renderButtons();
 })
 
 
