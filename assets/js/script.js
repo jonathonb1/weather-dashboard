@@ -30,7 +30,8 @@ $(document).ready(function () {
             const wind = response.wind.speed;
             const humidity = response.main.humidity;
             const temperature = response.main.temp;
-
+            const latitude = response.coord.lat;
+            const longitude = response.coord.lon;
 
             console.log(name, wind, humidity, temperature);
             // card title
@@ -47,19 +48,29 @@ $(document).ready(function () {
             const humidEl = $("<p>").addClass("card-text").text(`Humidity: ${humidity}`);
             const tempEl = $("<p>").addClass("card-text").text(`Temerature: ${temperature}`);
 
+
             // add all data into card
 
             // append data into body section
             cardBodyEl.append(titleEl, tempEl, humidEl, windEl);
 
-            // append onto card element
+            // append card body onto card element
             cardEl.append(cardBodyEl);
 
             // append onto html page
             $("#today").append(cardEl);
 
+            getForecast(latitude, longitude);
 
+        })
+    }
 
+    function getForecast(latitude, longitude) {
+        $.ajax({
+            type: "Get",
+            url: `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=688988e3b9c619e778927f53f7761d5d`
+        }).then(function (response) {
+            console.log(response);
         })
     }
 
